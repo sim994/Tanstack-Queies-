@@ -1,12 +1,20 @@
 import React from "react";
 import { Layout } from "./Layout";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { Table } from "./components/Table";
+import { createBrowserRouter,RouterProvider } from "react-router-dom";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {path: "/", element:<Table />},
+    ]
+  }
+]);
 
 export function App() {
-  const queryClient = new QueryClient();
   return (
-    <QueryClientProvider client={queryClient}>
-        <Layout />
-    </QueryClientProvider>
+    <RouterProvider router={router} />
   );
 }

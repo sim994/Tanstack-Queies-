@@ -1,41 +1,110 @@
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-:root{
+
+:root {
   --font-family: 'Arial', sans-serif;
   --background-color: #333;
   --color: #fff;
 }
-header{
+
+/* Header Styles */
+
+header {
   width: 100%;
   background-color: var(--background-color);
   color: var(--color);
-  padding:15px;
+  padding: 15px;
   text-align: center;
 }
 
-header h1{
+header h1 {
   font-family: var(--font-family);
 }
 
-.data-table-section{
+
+/* Data Table Styles */
+
+.data-table-section {
+  min-height: 560px;
   width: 100%;
-  min-height: 80vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 40%, #f64f59 100%);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-footer{
+.data-table-section .table-wrapper {
+  min-width: 1200px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+
+}
+
+.table-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-wrapper thead tr th {
+  text-align: center;
+}
+
+.table-wrapper tbody tr {
+  text-align: center;
+}
+
+tbody td {
+  padding: 20px 10px;
+
+}
+
+.table-wrapper thead tr {
+  background: rgba(255, 255, 255, 0.18);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.table-wrapper thead th {
+  padding: 15px 20px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.table-wrapper tfoot {
+  font-weight: 500;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.table-wrapper tfoot td{
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.18);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Footer Styles */
+
+footer {
   width: 100%;
   background-color: var(--background-color);
   color: var(--color);
-  padding:15px;
+  padding: 15px;
   text-align: center;
 }
-footer h3{
+
+footer h3 {
   font-family: var(--font-family);
 }
-
