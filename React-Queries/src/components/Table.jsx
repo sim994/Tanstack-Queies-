@@ -7,26 +7,46 @@ export function Table() {
   const [searchParams, setSearchParams] = useSearchParams({
     limit: 5,
     skip: 0,
+    firstName:""
   });
+
   
   const limit = parseInt(searchParams.get("limit")) || 5;
   const skip = parseInt(searchParams.get("skip")) || 0;
-  
+  const firstName = searchParams.get("firstName") || "";
+
+
   const {
     isLoading,
     isError,
     data: users,
   } = useQuery({
-    queryKey: ["users", limit, skip],
+    queryKey: ["users", limit, skip, firstName],
     queryFn: async () =>
-      await axios.get(`https://dummyjson.com/users?limit=${limit}&skip=${skip}`).then((res) => res.data),
+      await axios
+        .get(`https://dummyjson.com/users?limit=${limit}&skip=${skip}&firstName=${firstName}`)
+        .then((res) => res.data),
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 5,
   });
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error occurred while fetching data.</div>;
 
+    function finduser(e){
+      e.preventDefault();
+      
+    }
   return (
     <section className="data-table-section">
+      <form method="post" onSubmit={finduser}>
+        <input
+          type="search"
+          name="firstname"
+          placeholder="Search by first name..."
+          className="search-input"
+        />
+      </form>
       <div className="table-wrapper">
         <table>
           <thead>
