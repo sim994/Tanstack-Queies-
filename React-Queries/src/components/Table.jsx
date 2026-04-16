@@ -1,52 +1,62 @@
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery,keepPreviousData } from "@tanstack/react-query";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
+import { Loading } from "./Loading";
 
 export function Table() {
   const [searchParams, setSearchParams] = useSearchParams({
     limit: 5,
     skip: 0,
-    firstName:""
+    q: "",
   });
 
-  
   const limit = parseInt(searchParams.get("limit")) || 5;
   const skip = parseInt(searchParams.get("skip")) || 0;
-  const firstName = searchParams.get("firstName") || "";
-
+  const q = searchParams.get("q") || "";
 
   const {
     isLoading,
     isError,
     data: users,
   } = useQuery({
-    queryKey: ["users", limit, skip, firstName],
+    queryKey: ["users", limit, skip, q],
     queryFn: async () =>
       await axios
-        .get(`https://dummyjson.com/users?limit=${limit}&skip=${skip}&firstName=${firstName}`)
+        .get(`https://dummyjson.com/users?limit=${limit}&skip=${skip}&q=${q}`)
         .then((res) => res.data),
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 5,
+    placeholderData: keepPreviousData,
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  const filteredUsers = users?.users?.filter((user) =>
+    `${user.firstName} ${user.lastName}`
+      .toLowerCase()
+      .includes(q.toLowerCase()),
+  );
+
+  if (isLoading) return <Loading />;
   if (isError) return <div>Error occurred while fetching data.</div>;
 
-    function finduser(e){
-      e.preventDefault();
-      
-    }
   return (
     <section className="data-table-section">
-      <form method="post" onSubmit={finduser}>
+      <div className="input-div">
         <input
           type="search"
           name="firstname"
           placeholder="Search by first name..."
           className="search-input"
+          onChange={(e) => {
+            setSearchParams((prev) => {
+              return {
+                ...Object.fromEntries(prev),
+                q: e.target.value,
+              };
+            });
+          }}
         />
-      </form>
+      </div>
       <div className="table-wrapper">
         <table>
           <thead>
@@ -61,7 +71,7 @@ export function Table() {
             </tr>
           </thead>
           <tbody>
-            {users?.users?.map((user) => (
+            {filteredUsers?.map((user) => (
               <tr key={user.id}>
                 <td>{user.id}</td>
                 <td>
@@ -78,7 +88,7 @@ export function Table() {
           <tfoot>
             <tr>
               <td colSpan="7" style={{ textAlign: "center" }}>
-                Total Records:{users?.users?.length} Of {users?.total}
+                Total Records:{filteredUsers?.length} Of {users?.total}
               </td>
             </tr>
           </tfoot>

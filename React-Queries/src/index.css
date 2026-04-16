@@ -9,7 +9,13 @@
   --background-color: #333;
   --color: #fff;
 }
+/* Layout  Styles*/
 
+.layout-section{
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;
+}
 /* Header Styles */
 
 header {
@@ -28,6 +34,7 @@ header h1 {
 /* Data Table Styles */
 
 .data-table-section {
+  padding: 50px 0;
   min-height: 560px;
   width: 100%;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 40%, #f64f59 100%);
@@ -35,14 +42,15 @@ header h1 {
   justify-content: space-evenly;
   align-items: center;
   flex-direction: column;
+  gap: 50px;
 }
-form{
+.input-div{
   min-width: 1200px;
   display: flex;
   justify-content: center;
 }
 .search-input{
-  padding: 15px ;
+  padding: 15px;
   width: 100%;
   border-radius: 15px;
    outline: none;
