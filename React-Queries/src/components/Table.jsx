@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery,keepPreviousData } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { Loading } from "./Loading";
@@ -87,8 +87,34 @@ export function Table() {
           </tbody>
           <tfoot>
             <tr>
-              <td colSpan="7" style={{ textAlign: "center" }}>
+              <td colSpan="3" style={{ textAlign: "center" }}>
                 Total Records:{filteredUsers?.length} Of {users?.total}
+              </td>
+              <td colSpan="4" style={{ textAlign: "center" }}>
+                <button
+                  onClick={() => {
+                    setSearchParams((prev) => {
+                      return {
+                        ...Object.fromEntries(prev),
+                        skip: Math.max(0, skip - limit),
+                      };
+                    });
+                  }}
+                >
+                  Previous
+                </button>
+                <button
+                  onClick={() => {
+                    setSearchParams((prev) => {
+                      return {
+                        ...Object.fromEntries(prev),
+                        skip: skip + limit,
+                      };
+                    });
+                  }}
+                >
+                  Next
+                </button>
               </td>
             </tr>
           </tfoot>
