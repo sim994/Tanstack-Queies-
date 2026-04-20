@@ -9,7 +9,7 @@ export function Table() {
     limit: 5,
     skip: 0,
     q: "",
-    gender: ""
+    gender: "",
   });
 
   const limit = parseInt(searchParams.get("limit")) || 5;
@@ -22,7 +22,7 @@ export function Table() {
     isError,
     data: users,
   } = useQuery({
-    queryKey: ["users", limit, skip, q,gender],
+    queryKey: ["users", limit, skip, q, gender],
     queryFn: async () =>
       await axios
         .get(`https://dummyjson.com/users?limit=${limit}&skip=${skip}&q=${q}`)
@@ -32,19 +32,19 @@ export function Table() {
     placeholderData: keepPreviousData,
   });
 
- const filteredUsers = users?.users?.filter((user) => {
-  const fullName = `${user.firstName} ${user.lastName}`.toLowerCase();
+  const filteredUsers = users?.users?.filter((user) => {
+    const fullName = `${user.firstName} ${user.lastName}`.toLowerCase();
 
-  const matchSearch = fullName.includes(q.toLowerCase());
+    const matchSearch = fullName.includes(q.toLowerCase());
 
-  const matchGender =
-    !gender || user.gender.toLowerCase() === gender.toLowerCase();
+    const matchGender =
+      !gender || user.gender.toLowerCase() === gender.toLowerCase();
 
-  if (gender == "All Genders") {
-    return matchSearch;
-  }
-  return matchSearch && matchGender;
-});
+    if (gender == "All Genders") {
+      return matchSearch;
+    }
+    return matchSearch && matchGender;
+  });
 
   if (isLoading) return <Loading />;
   if (isError) return <div>Error occurred while fetching data.</div>;
@@ -66,17 +66,19 @@ export function Table() {
             });
           }}
         />
-        <select name="gender" className="search-input" 
-          onChange={(e)=>{
+        <select
+          name="gender"
+          className="search-input"
+          onChange={(e) => {
             setSearchParams((prev) => {
               return {
-                ...Object.fromEntries(prev),  
-                gender: e.target.value
+                ...Object.fromEntries(prev),
+                gender: e.target.value,
               };
             });
           }}
         >
-          <option value="All Genders" >All Genders</option>
+          <option value="All Genders">All Genders</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
@@ -116,6 +118,7 @@ export function Table() {
               </td>
               <td colSpan="4" style={{ textAlign: "center" }}>
                 <button
+                  className="Pagination-btn"
                   onClick={() => {
                     setSearchParams((prev) => {
                       return {
@@ -128,6 +131,7 @@ export function Table() {
                   Previous
                 </button>
                 <button
+                  className="Pagination-btn"
                   onClick={() => {
                     setSearchParams((prev) => {
                       return {
