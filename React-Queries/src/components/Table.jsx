@@ -9,18 +9,20 @@ export function Table() {
     limit: 5,
     skip: 0,
     q: "",
+    gender: ""
   });
 
   const limit = parseInt(searchParams.get("limit")) || 5;
   const skip = parseInt(searchParams.get("skip")) || 0;
   const q = searchParams.get("q") || "";
+  const gender = searchParams.get("gender") || "";
 
   const {
     isLoading,
     isError,
     data: users,
   } = useQuery({
-    queryKey: ["users", limit, skip, q],
+    queryKey: ["users", limit, skip, q,gender],
     queryFn: async () =>
       await axios
         .get(`https://dummyjson.com/users?limit=${limit}&skip=${skip}&q=${q}`)
@@ -30,11 +32,19 @@ export function Table() {
     placeholderData: keepPreviousData,
   });
 
-  const filteredUsers = users?.users?.filter((user) =>
-    `${user.firstName} ${user.lastName}`
-      .toLowerCase()
-      .includes(q.toLowerCase()),
-  );
+ const filteredUsers = users?.users?.filter((user) => {
+  const fullName = `${user.firstName} ${user.lastName}`.toLowerCase();
+
+  const matchSearch = fullName.includes(q.toLowerCase());
+
+  const matchGender =
+    !gender || user.gender.toLowerCase() === gender.toLowerCase();
+
+  if (gender == "All Genders") {
+    return matchSearch;
+  }
+  return matchSearch && matchGender;
+});
 
   if (isLoading) return <Loading />;
   if (isError) return <div>Error occurred while fetching data.</div>;
@@ -56,7 +66,16 @@ export function Table() {
             });
           }}
         />
-        <select name="gender" className="search-input">
+        <select name="gender" className="search-input" 
+          onChange={(e)=>{
+            setSearchParams((prev) => {
+              return {
+                ...Object.fromEntries(prev),  
+                gender: e.target.value
+              };
+            });
+          }}
+        >
           <option value="All Genders" >All Genders</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
