@@ -46,12 +46,14 @@ header h1 {
 }
 .input-div{
   min-width: 1200px;
-  display: flex;
-  justify-content: center;
+  display: grid;  
+  grid-template-columns: 1fr .5fr;
+  grid-template-rows: auto  ;
+  grid-column: 20px;
 }
 .search-input{
   padding: 15px;
-  width: 100%;
+  width: 90%;
   border-radius: 15px;
    outline: none;
   background: rgba(255, 255, 255, 0.12);

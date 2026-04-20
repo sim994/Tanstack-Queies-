@@ -56,6 +56,11 @@ export function Table() {
             });
           }}
         />
+        <select name="gender" className="search-input">
+          <option value="All Genders" >All Genders</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
       </div>
       <div className="table-wrapper">
         <table>
