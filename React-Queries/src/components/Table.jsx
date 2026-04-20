@@ -45,6 +45,7 @@ export function Table() {
     }
     return matchSearch && matchGender;
   });
+  
 
   if (isLoading) return <Loading />;
   if (isError) return <div>Error occurred while fetching data.</div>;
